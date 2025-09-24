@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gymmaster/apps_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +12,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 19, 19, 19),
-        // Removido el AppBar para que el título pueda superponerse
+        backgroundColor: AppsColors.background,
+        appBar: AppBar(
+          title: const Text('Inicio'),
+          titleTextStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: AppsColors.textPrimary,
+          ),
+          backgroundColor: const Color(0xFF131313),
+          
+        ),
         body: Stack(
           children: <Widget>[
             // Imagen de fondo (primer widget, en la parte inferior del Stack)
@@ -31,11 +41,11 @@ class MyApp extends StatelessWidget {
                   top: 5,
                 ), // Ajusta el espacio desde la parte superior
                 child: Text(
-                  'Bienvenido a GymMaster',
+                  '',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // Puedes cambiar el color para que se vea sobre la imagen
+                    color: AppsColors.textPrimary, // Puedes cambiar el color para que se vea sobre la imagen
                   ),
                 ),
               ),
@@ -69,6 +79,7 @@ class MyApp extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 25),
+                        backgroundColor: AppsColors.accent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -89,7 +100,7 @@ class MyApp extends StatelessWidget {
                         // Navegación a la pantalla de registro
                       },
                       style: ElevatedButton.styleFrom( 
-                        backgroundColor: Color.fromARGB(255, 15, 20, 130),
+                        backgroundColor: AppsColors.accent,
                         padding: const EdgeInsets.symmetric(vertical: 25),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
