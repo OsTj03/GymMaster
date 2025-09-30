@@ -41,7 +41,7 @@ class PantallaScreen extends StatelessWidget {
                 
                 GridView.count(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(), 
+                  physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   crossAxisSpacing: 20.0,
                   mainAxisSpacing: 20.0,
@@ -53,7 +53,10 @@ class PantallaScreen extends StatelessWidget {
                     }),
                     _buildSquareButton(context, 'Ventas', Icons.monetization_on, () {}),
                     _buildSquareButton(context, 'Compras', Icons.shopping_cart, () {}),
-                    _buildSquareButton(context, 'Productos', Icons.fitness_center, () {}),
+                    _buildSquareButton(context, 'Productos', Icons.fitness_center, () {
+                      Navigator.of( context).pop();
+                      AutoRouter.of(context).push(const ProductoRoute());
+                    }),
                   ],
                 ),
               ],

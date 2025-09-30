@@ -38,12 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // Se ha eliminado toda la lógica de inicio de sesión
-  // para que el código se centre únicamente en el diseño.
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // La validación del formulario se mantiene para fines de diseño,
-      // pero no se realiza ninguna acción después.
     }
   }
 

@@ -7,4 +7,5 @@ class  AppsColors
   static const Color background = Color(0xFF1D1E33);
   static const Color textPrimary = Color(0xFFFFFFFF);
   static const Color textSecondary = Color(0xFF8D8E98);
+  static const Color sizedboxcolor = Color.fromARGB(255, 35, 35, 53);
 }

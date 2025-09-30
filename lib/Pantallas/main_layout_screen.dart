@@ -84,6 +84,8 @@ drawer: Drawer(
             leading: const Icon(Icons.fitness_center),
             title: const Text('Productos'),
             onTap: () {
+              Navigator.of( context).pop();
+              AutoRouter.of(context).replace(const ProductoRoute());
             },
           ),
         ],

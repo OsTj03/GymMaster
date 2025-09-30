@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart'; 
 import 'package:gymmaster/routes.gr.dart';
-import 'package:gymmaster/main_layout_screen.dart';
+import 'package:gymmaster/Pantallas/main_layout_screen.dart';
 import 'Pantallas/pantalla_inicio.dart';
 import 'Pantallas/inventario.dart';
+import 'Pantallas/producto_page.dart';
+
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -27,6 +29,10 @@ class AppRouter extends RootStackRouter {
           path: 'hello-world',
           title: (context, data) => 'Inventario',
         ),
+        
+        AutoRoute(
+          page:ProductoRoute.page,
+          path: '',)
       ],
     ),
   ];
