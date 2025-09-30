@@ -1,7 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gymmaster/apps_colors.dart';
+import '../routes.dart';
+import 'package:gymmaster/routes.gr.dart';
 
+@RoutePage()
 class Barranaveg extends StatelessWidget {
+  static const String routeName = '/barranaveg';
   const Barranaveg({super.key});
 
   @override
@@ -24,10 +29,20 @@ class Barranaveg extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Inicio'),
+            onTap: () {
+              // Agrega aquí la acción al presionar
+            },
+          ),
+
+          ListTile(
             leading: const Icon(Icons.inventory),
             title: const Text('Inventario'),
             onTap: () {
-              // Agrega aquí la acción al presionar
+
+              AutoRouter.of(context).push(const HelloWorldRoute());
+              
             },
           ),
           ListTile(

@@ -1,15 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
+@RoutePage()
+class HelloWorldScreen extends StatelessWidget {
+  static const String routeName = 'hello-world';
+  const HelloWorldScreen({super.key});
+  
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(child: Text("Hola Mundo"));
   }
+
 }
