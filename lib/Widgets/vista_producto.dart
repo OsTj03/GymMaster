@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; // Importar material.dart para usar Container, TextStyle, etc.
+import 'package:flutter/material.dart';
 import '../listaproductos.dart';
 import '../apps_colors.dart';
 
@@ -21,7 +21,7 @@ class vistaproducto extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Container( 
-                color: AppsColors.textPrimary, // Color oscuro para contrastar con el fondo
+                color: AppsColors.textPrimary, 
                 width: 72,
                 height: 72,
                 child: Image.asset(item.imagen),

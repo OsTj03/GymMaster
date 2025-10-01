@@ -77,7 +77,8 @@ drawer: Drawer(
             leading: const Icon(Icons.shopping_cart),
             title: const Text('Compras'),
             onTap: () {
-              // Agrega aquí la acción al presionar
+              Navigator.of( context).pop();
+              AutoRouter.of(context).replace(const HistorialComprasRoute());
             },
           ),
           ListTile(

@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart'; // Solo necesitamos widgets básicos si el Scaffold está en otro lugar
+import 'package:flutter/widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../../listaproductos.dart';
