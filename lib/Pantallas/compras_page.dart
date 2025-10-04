@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../registrocompra.dart';
-import '../listaproductos.dart';
+import '../data/registrocompra.dart';
+import '../data/listaproductos.dart';
 import '../Widgets/vistacompras.dart';
 
 @RoutePage()

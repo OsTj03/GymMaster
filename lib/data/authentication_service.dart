@@ -1,0 +1,54 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart'; // Importado para debugPrint
+
+class AuthenticationService
+{
+  final String apiUrl = 'http://10.0.2.2:5132/api';
+
+  Future<void> login(String usuario, String password) async {
+    // 1. Configuración de Dio
+    Dio dio = Dio(BaseOptions(baseUrl: apiUrl, validateStatus: (status) => status! < 500));
+    String endpoint = '/Usuario/Login';
+    
+    // 2. Datos de la solicitud (coinciden con el esquema de Swagger)
+    final Map<String, String> data = {
+      'nombre_Usuario': usuario,
+      'contraseña': password,
+    };
+    
+    try {
+      final Response response = await dio.post(endpoint, data: data);
+      
+      // 3. Manejo de respuesta exitosa (código 200 o 201)
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        debugPrint('Login exitoso: ${response.data}');
+      } else if (response.statusCode == 401 || response.statusCode == 400) {
+        // Manejar errores de negocio (ej. credenciales inválidas) si el servidor devuelve estos códigos.
+        // Se asume que el servidor devuelve un cuerpo de error con una clave 'mensaje'.
+        final errorMessage = response.data?['mensaje'] ?? 'Credenciales inválidas o error de solicitud.';
+        throw Exception('Fallo de autenticación: $errorMessage');
+      } else {
+        // Manejo de otros códigos de estado inesperados (ej. 403, 404)
+        throw Exception('Error al iniciar sesión: Código de estado ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      // 4. Manejo específico de errores de Dio (conexión o respuesta con código 4xx)
+      if (e.response != null) {
+        // El servidor respondió, pero con un código de error (ej. 401, 404, 500)
+        final errorBody = e.response!.data;
+        // NOTA: Confirma que tu API usa la clave 'mensaje' para los errores.
+        final apiMessage = errorBody is Map && errorBody.containsKey('mensaje') 
+                           ? errorBody['mensaje'] 
+                           : 'Respuesta de error no estándar.';
+
+        throw Exception('Error de API (${e.response!.statusCode}): $apiMessage');
+      } else {
+        // Fallo en la conexión de red (el problema inicial de IP/CORS)
+        throw Exception('Error de conexión de red. Verifica la URL de la API y la configuración de CORS.');
+      }
+    } catch (e) {
+      // Manejo de cualquier otra excepción
+      throw Exception('Error inesperado al iniciar sesión: $e');
+    }
+  }
+}

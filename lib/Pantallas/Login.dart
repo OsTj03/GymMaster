@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:gymmaster/data/authentication_service.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../apps_colors.dart';
 
-@RoutePage() 
+@RoutePage()
 class LoginScreen extends StatefulWidget {
-  final Function()? onLoginSuccess;
-
-  const LoginScreen({super.key, this.onLoginSuccess});
+  const LoginScreen({super.key, Function()? onLoginSuccess});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  final AuthenticationService _authenticationService = AuthenticationService();
+  final Map<String, String> formData = {};
+  
+  final GlobalKey<FormState> formState = GlobalKey<FormState>();
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      context.router.replace(const MainLayoutRoute(children: [PantallaRoute()]));
+  Future<void> submit() async {
+    if (!formState.currentState!.validate()) {
+      debugPrint("Formulario no válido. Por favor, corrige");
+      return;
+    }
+    try {
+      final String usuario = formData['nombre_Usuario'] ?? '';
+      final String password = formData['contraseña'] ?? '';
+      await _authenticationService.login(usuario, password);
+      
+      debugPrint("Inicio de sesión exitoso para: $usuario");
+      
+      if (mounted) {
+        context.router.replace(PantallaRoute());
+    }
+    }
+    on Exception catch (e) {
+      debugPrint("Error al iniciar sesión: $e");
     }
   }
 
@@ -50,11 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               );
             },
-            child: Form(
-              key: _formKey,
+            child: Form( 
+              key: formState, 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  // Icono del logo
                   Icon(
                     Icons.fitness_center,
                     color: AppsColors.primaryAccentColor,
@@ -62,27 +72,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   
+                  // Título de la aplicación
                   Text(
                     'GYM MASTER',
                     style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.w900,
-                      color:AppsColors.primaryAccentColor,
+                      color: AppsColors.primaryAccentColor,
                       letterSpacing: 2,
                     ),
                   ),
                   const SizedBox(height: 60),
 
                   _buildTextInput(
-                    controller: _emailController,
-                    labelText: 'Email',
+                    keyName: 'usuario',
+                    labelText: 'Usuario',
                     icon: Icons.person_outline,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 20),
 
                   _buildTextInput(
-                    controller: _passwordController,
+                    keyName: 'contraseña',
                     labelText: 'Contraseña',
                     icon: Icons.lock_outline,
                     obscureText: true,
@@ -92,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _login,
+                      onPressed: submit,
                       style: ElevatedButton.styleFrom(
                         foregroundColor: AppsColors.accent,
                         backgroundColor: AppsColors.primaryAccentColor,
@@ -120,20 +131,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildTextInput({
-    required TextEditingController controller,
+    required String keyName,
     required String labelText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
     bool obscureText = false,
   }) {
     return TextFormField(
-      controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.white70),
+        labelStyle: const TextStyle(color: Colors.white70),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -145,16 +155,22 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: AppsColors.primaryAccentColor, width: 2),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
           borderSide: BorderSide(color: Colors.transparent),
         ),
+        errorStyle: const TextStyle(color: Colors.redAccent),
       ),
+      
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Este campo es obligatorio';
+          return 'Por favor, introduce tu $labelText';
         }
         return null;
+      },
+      
+      onChanged: (value) {
+        formData[keyName] = value;
       },
     );
   }
