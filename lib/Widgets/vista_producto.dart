@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/listaproductos.dart';
+import '../data/models/listaproductos.dart';
 import '../apps_colors.dart';
 
 class vistaproducto extends StatelessWidget {

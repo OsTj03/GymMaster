@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../data/listaproductos.dart';
-import '../../Widgets/vista_producto.dart';
+import '../../data/models/listaproductos.dart';
+import '../../../Widgets/vista_producto.dart';
 
 @RoutePage()
 class ProductoPage extends StatefulWidget {

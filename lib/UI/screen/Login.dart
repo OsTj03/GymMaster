@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:gymmaster/data/authentication_service.dart';
+import 'package:gymmaster/data/Services/authentication_service.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../apps_colors.dart';
+import '../../apps_colors.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {

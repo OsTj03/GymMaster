@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gymmaster/routes.gr.dart';
-import 'package:gymmaster/Pantallas/Login.dart';      
-import 'package:gymmaster/Pantallas/main_layout_screen.dart';
-import 'Pantallas/pantalla_inicio.dart';
-import 'Pantallas/inventario.dart';
-import 'Pantallas/producto_page.dart';
-import 'Pantallas/compras_page.dart';
+import 'package:gymmaster/UI/screen/Login.dart';      
+import 'package:gymmaster/UI/screen/main_layout_screen.dart';
+import 'UI/screen/pantalla_inicio.dart';
+import 'UI/screen/inventario.dart';
+import 'UI/screen/producto_page.dart';
+import 'UI/screen/compras_page.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {

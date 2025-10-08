@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/registrocompra.dart';
+import '../data/models/registrocompra.dart';
 import '../apps_colors.dart';
 class VistaCompra extends StatelessWidget {
   const VistaCompra({
