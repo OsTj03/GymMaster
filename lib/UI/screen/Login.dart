@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gymmaster/data/Services/authentication_service.dart';
+import 'package:gymmaster/data/constants/secure_storage_keys.dart';
+import 'package:gymmaster/data/models/token.dart';
+import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../../apps_colors.dart';
 
@@ -14,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  final AuthenticationService _authenticationService = AuthenticationService();
+  final _authenticationService = AuthenticationRepository();
   final Map<String, String> formData = {};
   
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
@@ -25,11 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     try {
-      final String usuario = formData['nombre_Usuario'] ?? '';
+      final String usuario = formData['usuario'] ?? '';
       final String password = formData['contraseña'] ?? '';
       await _authenticationService.login(usuario, password);
-      
-      debugPrint("Inicio de sesión exitoso para: $usuario");
       
       if (mounted) {
         context.router.replace(PantallaRoute());
