@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../../data/models/registrocompra.dart';
-import '../../data/models/listaproductos.dart';
+import '../../data/models/compra-modelo.dart';
+import '../../data/Services/regiscompra-service.dart';
 import '../../Widgets/vistacompras.dart';
 
 @RoutePage()
@@ -14,65 +14,30 @@ class HistorialComprasPage extends StatefulWidget {
 }
 
 class _HistorialComprasPageState extends State<HistorialComprasPage> {
-  final List<RegistroDeCompra> _registrosDeCompras = [];
+  final CompraService _compraService = CompraService();
+  List<RegistroDeCompra> _registrosDeCompras = [];
+  bool _loading = true;
+  String _error = '';
 
   @override
   void initState() {
     super.initState();
-    _generarDatosDePrueba();
+    _loadCompras();
   }
 
-  void _generarDatosDePrueba() {
-    final listadeproducto proteina = listadeproducto(
-      id: 1,
-      nombre: 'Proteina de Chocolate',
-      descripcion: 'Suplemento de proteína whey',
-      precio: 100,
-      imagen: 'assets/images/Proteinachocolate.webp',
-    );
-    final listadeproducto creatina = listadeproducto(
-      id: 2,
-      nombre: 'Creatina Monohidratada',
-      descripcion: 'Mejora fuerza y rendimiento',
-      precio: 80,
-      imagen: 'assets/images/creatina.webp',
-    );
-    final listadeproducto preEntreno = listadeproducto(
-      id: 3,
-      nombre: 'Pre-Entreno Explosivo',
-      descripcion: 'Energía y enfoque para tus entrenamientos',
-      precio: 120,
-      imagen: 'assets/images/preentreno.webp',
-    );
-
-
-    _registrosDeCompras.add(RegistroDeCompra(
-      id: 1,
-      fecha: DateTime(2023, 10, 26, 10, 30),
-      total: 180.0,
-      items: [
-        ItemComprado(producto: proteina, cantidad: 1),
-        ItemComprado(producto: creatina, cantidad: 1),
-      ],
-    ));
-
-    _registrosDeCompras.add(RegistroDeCompra(
-      id: 2,
-      fecha: DateTime(2023, 10, 25, 15, 00),
-      total: 240.0,
-      items: [
-        ItemComprado(producto: preEntreno, cantidad: 2),
-      ],
-    ));
-
-    _registrosDeCompras.add(RegistroDeCompra(
-      id: 3,
-      fecha: DateTime(2023, 10, 24, 08, 15),
-      total: 100.0,
-      items: [
-        ItemComprado(producto: proteina, cantidad: 1),
-      ],
-    ));
+  Future<void> _loadCompras() async {
+    try {
+      final compras = await _compraService.getCompras();
+      setState(() {
+        _registrosDeCompras = compras;
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = 'Error al cargar compras: $e';
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -96,15 +61,43 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
           ),
         ),
 
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final registro = _registrosDeCompras[index];
-              return VistaCompra(registro: registro);
-            },
-            childCount: _registrosDeCompras.length,
+        if (_loading)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          )
+        else if (_error.isNotEmpty)
+          SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(_error),
+              ),
+            ),
+          )
+        else if (_registrosDeCompras.isEmpty)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text('No hay compras registradas'),
+              ),
+            ),
+          )
+        else
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final registro = _registrosDeCompras[index];
+                return VistaCompra(registro: registro);
+              },
+              childCount: _registrosDeCompras.length,
+            ),
           ),
-        ),
       ],
     );
   }

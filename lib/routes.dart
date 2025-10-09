@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gymmaster/routes.gr.dart';
-import 'package:gymmaster/UI/screen/Login.dart';      
+import 'package:gymmaster/UI/screen/Login.dart';
 import 'package:gymmaster/UI/screen/main_layout_screen.dart';
 import 'UI/screen/pantalla_inicio.dart';
-import 'UI/screen/inventario.dart';
+import 'UI/screen/Categoria-page.dart';
 import 'UI/screen/producto_page.dart';
 import 'UI/screen/compras_page.dart';
 
@@ -31,7 +31,7 @@ class AppRouter extends RootStackRouter {
         ),
       
         AutoRoute(
-          page: HelloWorldRoute.page,
+          page: CategoriaRoute.page,
           path: '',
           title: (context, data) => 'Inventario',
         ),
@@ -45,7 +45,10 @@ class AppRouter extends RootStackRouter {
           page: HistorialComprasRoute.page,
           path: '',
           title: (context, data) => 'Historial de Compras',
-        )
+        ),
+        AutoRoute(page: AgregarCategoriaRoute.page, 
+        path: ''
+        ) 
       ],
     ),
   ];

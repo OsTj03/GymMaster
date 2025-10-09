@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../data/models/registrocompra.dart';
+import '../data/models/compra-modelo.dart';
 import '../apps_colors.dart';
+
 class VistaCompra extends StatelessWidget {
   const VistaCompra({
     super.key,
@@ -12,11 +13,11 @@ class VistaCompra extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Formateador de fecha
-    final String formattedDate = '${registro.fecha.day}/${registro.fecha.month}/${registro.fecha.year}';
+    final String formattedDate = '${registro.fechaCompra.day}/${registro.fechaCompra.month}/${registro.fechaCompra.year}';
 
     return GestureDetector(
       onTap: () {
-        print('Compra #${registro.id} seleccionada');
+        print('Compra #${registro.idCompra} seleccionada');
       },
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -29,7 +30,7 @@ class VistaCompra extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Compra #${registro.id}',
+                'Compra #${registro.idCompra}',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -46,7 +47,7 @@ class VistaCompra extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Total: \$${registro.total.toStringAsFixed(2)} NIO',
+                'Total: \$${registro.costoTotal.toStringAsFixed(2)} NIO',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -55,17 +56,17 @@ class VistaCompra extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Items: ${registro.items.length} productos',
+                'Items: ${registro.detalleCompras.length} productos',
                 style: TextStyle(
                   fontSize: 14,
                   color: AppsColors.textPrimary.withOpacity(0.8),
                 ),
               ),
-              if (registro.items.isNotEmpty)
+              if (registro.detalleCompras.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
-                    '- ${registro.items[0].producto.nombre} x ${registro.items[0].cantidad}',
+                    'Producto ID: ${registro.detalleCompras[0].idProducto} x ${registro.detalleCompras[0].cantidad}',
                     style: TextStyle(
                       fontSize: 12,
                       color: AppsColors.textPrimary.withOpacity(0.7),
@@ -73,9 +74,9 @@ class VistaCompra extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (registro.items.length > 1)
+              if (registro.detalleCompras.length > 1)
                 Text(
-                  '... y ${registro.items.length - 1} más',
+                  '... y ${registro.detalleCompras.length - 1} más',
                   style: TextStyle(
                     fontSize: 12,
                     color: AppsColors.textPrimary.withOpacity(0.7),

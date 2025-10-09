@@ -41,7 +41,7 @@ class Barranaveg extends StatelessWidget {
             title: const Text('Inventario'),
             onTap: () {
 
-              AutoRouter.of(context).push(const HelloWorldRoute());
+              AutoRouter.of(context).push(const CategoriaRoute());
               
             },
           ),

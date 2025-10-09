@@ -60,10 +60,10 @@ drawer: Drawer(
           ),
           ListTile(
             leading: const Icon(Icons.inventory),
-            title: const Text('Inventario'),
+            title: const Text('Categorias'),
             onTap: () {
               Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const HelloWorldRoute());
+              AutoRouter.of(context).replace(const CategoriaRoute());
             },
           ),
           ListTile(

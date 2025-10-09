@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
-import '../data/models/producto_modelo.dart'; // Cambiado a producto_modelo
+import '../data/models/producto_modelo.dart';
 import '../apps_colors.dart';
 
-class VistaProducto extends StatelessWidget { // Cambiado a PascalCase
+class VistaProducto extends StatelessWidget {
   const VistaProducto({
     super.key,
     required this.item,
   });
-  final Producto item; // Cambiado a Producto
+  final Producto item;
+
+  static const Map<String, String> _imageMap = {
+    'Proteina A': 'assets/images/Proteinachocolate.webp',
+  };
+
+  String _getImagePath() {
+    final nombre = item.nombre.toLowerCase();
+    
+    // Buscar coincidencia exacta o parcial
+    for (final key in _imageMap.keys) {
+      if (nombre.contains(key)) {
+        return _imageMap[key]!;
+      }
+    }
+    
+    return 'assets/images/producto_default.jpg';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +43,17 @@ class VistaProducto extends StatelessWidget { // Cambiado a PascalCase
                   color: AppsColors.accent, 
                   width: 72,
                   height: 72,
-                  child: item.imagen.isNotEmpty 
-                      ? Image.network( // Cambiado a Image.network para URL
-                          item.imagen,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon( // Placeholder si la imagen falla
-                              Icons.shopping_bag,
-                              color: Colors.white,
-                              size: 32,
-                            );
-                          },
-                        )
-                      : Icon( // Placeholder si no hay imagen
-                          Icons.shopping_bag,
-                          color: Colors.white,
-                          size: 32,
-                        ),
+                  child: Image.asset(
+                    _getImagePath(),
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.shopping_bag,
+                        color: Colors.white,
+                        size: 32,
+                      );
+                    },
+                  ),
                 ),
               ),
               Expanded(
@@ -52,7 +63,7 @@ class VistaProducto extends StatelessWidget { // Cambiado a PascalCase
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.nombre, // Cambiado a namebrev
+                        item.nombre,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -62,7 +73,7 @@ class VistaProducto extends StatelessWidget { // Cambiado a PascalCase
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          item.descripcion, // Cambiado a description
+                          item.descripcion,
                           style: const TextStyle(
                             fontSize: 14,
                             color: AppsColors.accent, 
@@ -78,9 +89,8 @@ class VistaProducto extends StatelessWidget { // Cambiado a PascalCase
               Row(
                 mainAxisSize: MainAxisSize.min, 
                 children: [
-                  // Precio removido temporalmente - agregar cuando el API lo envíe
                   Text(
-                    'Ver detalles', // Placeholder
+                    'Ver detalles',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

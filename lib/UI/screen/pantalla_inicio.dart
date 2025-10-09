@@ -47,9 +47,9 @@ class PantallaScreen extends StatelessWidget {
                   mainAxisSpacing: 20.0,
                   childAspectRatio: 1.0,
                   children: <Widget>[
-                    _buildSquareButton(context, 'Inventario', Icons.inventory, () {
+                    _buildSquareButton(context, 'Categoria', Icons.category, () {
                       Navigator.of( context).pop();
-                      AutoRouter.of(context).push(const HelloWorldRoute());
+                      AutoRouter.of(context).push(const CategoriaRoute());
                     }),
                     _buildSquareButton(context, 'Ventas', Icons.monetization_on, () {}),
                     _buildSquareButton(context, 'Compras', Icons.shopping_cart, () {
