@@ -22,9 +22,7 @@ class AuthenticationService
 
       return Token.fromJson(response.data);
     } on DioException catch (e) {
-      // 4. Manejo específico de errores de Dio (conexión o respuesta con código 4xx)
       if (e.response != null) {
-        // El servidor respondió, pero con un código de error (ej. 401, 404, 500)
         final errorBody = e.response!.data;
         // NOTA: Confirma que tu API usa la clave 'mensaje' para los errores.
         final apiMessage = errorBody is Map && errorBody.containsKey('mensaje') 

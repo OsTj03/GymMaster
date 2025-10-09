@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gymmaster/data/Services/authentication_service.dart';
 import 'package:gymmaster/data/models/token.dart';
-
 import '../constants/secure_storage_keys.dart';
 
 class AuthenticationRepository {

@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../../data/models/listaproductos.dart';
+import '../../data/models/producto_modelo.dart';
+import '../../data/services/servicio_producto.dart';
 import '../../../Widgets/vista_producto.dart';
 
 @RoutePage()
@@ -13,22 +14,31 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductopageState extends State<ProductoPage> {
-  final List<listadeproducto> items = [
-    listadeproducto(
-      id: 1,
-      nombre: 'Proteina',
-      descripcion: 'Proteina de chocolate',
-      precio: 100,
-      imagen: 'assets/images/Proteinachocolate.webp',
-    ),
-    listadeproducto(
-      id: 2,
-      nombre: 'Creatina',
-      descripcion: 'Creatina monohidratada',
-      precio: 80,
-      imagen: 'assets/images/creatina.webp',
-    ),
-  ];
+  final ProductService _productService = ProductService();
+  List<Producto> _productos = [];
+  bool _loading = true;
+  String _error = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProducts();
+  }
+
+  Future<void> _loadProducts() async {
+    try {
+      final productos = await _productService.getProducts();
+      setState(() {
+        _productos = productos;
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = 'Error al cargar productos: $e';
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +61,43 @@ class _ProductopageState extends State<ProductoPage> {
           ),
         ),
         
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final item = items[index];
-              return vistaproducto(item: item);
-            },
-            childCount: items.length,
+        if (_loading)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text('Cargando productos...'),
+              ),
+            ),
+          )
+        else if (_error.isNotEmpty)
+          SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(_error),
+              ),
+            ),
+          )
+        else if (_productos.isEmpty)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text('No hay productos disponibles'),
+              ),
+            ),
+          )
+        else
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final producto = _productos[index];
+                return VistaProducto(item: producto); // Cambiado a VistaProducto
+              },
+              childCount: _productos.length,
+            ),
           ),
-        ),
       ],
     );
   }
