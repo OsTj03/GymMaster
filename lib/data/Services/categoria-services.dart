@@ -74,25 +74,47 @@ Future<bool> eliminarCategoria(int id) async {
 
   final Response response = await _dio.delete(
     '/CatProd/Delete',
-    queryParameters: {'id': id}, // Así está bien según tu API
+    queryParameters: {'id': id},
     options: Options(headers: {
       'Authorization': 'Bearer ${token.Secret}',
     }),
   );
 
   print('🗑️ Eliminando categoría ID: $id'); // Debug
-  print('📥 Respuesta: ${response.statusCode} - ${response.data}'); // Debug
+  print('📥 Respuesta: ${response.statusCode} - ${response.data}');
 
   if (response.statusCode != 200 && response.statusCode != 204) {
     throw Exception('Error ${response.statusCode}: ${response.data}');
   }
 
-  // Si el API responde con booleano
   if (response.data is bool) {
     return response.data;
   }
   
-  // Si responde con otro formato, consideramos exitoso si el status es 200/204
   return response.statusCode == 200 || response.statusCode == 204;
+}
+
+  // Nuevo método para editar categoría
+Future<bool> editarCategoria(Categoria categoria) async {
+  final token = await _authRepository.getToken();
+  
+  if (token == null) {
+    throw Exception("Token de autenticación no encontrado");
+  }
+
+  final Response response = await _dio.put(
+    '/CatProd/Update',
+    data: categoria.toJsonForEdit(),
+    options: Options(headers: {
+      'Authorization': 'Bearer ${token.Secret}',
+      'Content-Type': 'application/json',
+    }),
+  );
+
+  if (response.statusCode != 200 && response.statusCode != 204) {
+    throw Exception('Error ${response.statusCode}: ${response.data}');
+  }
+
+  return response.data == true;
 }
 }

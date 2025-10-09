@@ -46,10 +46,15 @@ class AppRouter extends RootStackRouter {
           path: '',
           title: (context, data) => 'Historial de Compras',
         ),
-        AutoRoute(page: AgregarCategoriaRoute.page, 
+        
+        AutoRoute(page: AgregarCategoriaRoute.page,
         path: ''
-        ) 
+        ),
+
+        AutoRoute(page: EditarCategoriaRoute.page,
+        path: ''
+        )
       ],
     ),
   ];
-} 
+}

@@ -27,4 +27,13 @@ class Categoria {
       'estado': estado,
     };
   }
+  
+  Map<String, dynamic> toJsonForEdit() {
+    return {
+      'categoriaID': categoriaID,
+      'nombreCategoria': nombreCategoria,
+      'descripcion': descripcion,
+      'estado': estado,
+    };
+  }
 }

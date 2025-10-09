@@ -62,6 +62,11 @@ class _CategoriaPageState extends State<CategoriaPage> {
     }
   }
 
+  Future<void> _editarCategoria(Categoria categoria) async {
+    await context.router.push(EditarCategoriaRoute(categoria: categoria));
+    _loadCategorias(); // Refrescar después de editar
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +141,8 @@ class _CategoriaPageState extends State<CategoriaPage> {
                   final categoria = _categorias[index];
                   return VistaCategoria(
                     categoria: categoria,
-                    onEliminar: _eliminarCategoria, // Nueva propiedad
+                    onEliminar: _eliminarCategoria,
+                    onEditar: _editarCategoria,
                   );
                 },
                 childCount: _categorias.length,

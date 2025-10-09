@@ -7,9 +7,11 @@ class VistaCategoria extends StatelessWidget {
     super.key,
     required this.categoria,
     required this.onEliminar,
+    required this.onEditar,
   });
   final Categoria categoria;
   final Function(int) onEliminar;
+  final Function(Categoria) onEditar;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class VistaCategoria extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: GestureDetector(
         onTap: () {
+          // Puedes agregar navegación al detalle aquí si quieres
         },
         child: Container(
           color: AppsColors.primaryAccentColor, 
@@ -66,16 +69,33 @@ class VistaCategoria extends StatelessWidget {
                   ),
                 )
               ),
-              // Botón de eliminar
-              IconButton(
-                onPressed: () {
-                  _mostrarDialogoEliminar(context);
-                },
-                icon: Icon(Icons.delete, color: Colors.red),
-              ),
-              Icon(
-                categoria.estado ? Icons.check_circle : Icons.remove_circle,
-                color: categoria.estado ? Colors.green : Colors.red,
+              // Botones de acción
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Botón de editar
+                  IconButton(
+                    onPressed: () {
+                      onEditar(categoria);
+                    },
+                    icon: Icon(Icons.edit, color: Colors.blue),
+                    tooltip: 'Editar categoría',
+                  ),
+                  // Botón de eliminar
+                  IconButton(
+                    onPressed: () {
+                      _mostrarDialogoEliminar(context);
+                    },
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    tooltip: 'Eliminar categoría',
+                  ),
+                  // Indicador de estado
+                  Icon(
+                    categoria.estado ? Icons.check_circle : Icons.remove_circle,
+                    color: categoria.estado ? Colors.green : Colors.red,
+                    size: 24,
+                  )
+                ],
               )
             ],
           ),
