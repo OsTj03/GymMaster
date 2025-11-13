@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:gymmaster/data/models/producto_modelo.dart';
+import 'package:gymmaster/data/models/venta-modelo.dart';
 import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/core/config/apiconfig.dart';
 
-class ProductoService {
+class VentaService {
   final Dio _dio;
   final AuthenticationRepository _authRepository = AuthenticationRepository();
 
-  ProductoService() : _dio = Dio(BaseOptions(
+  VentaService() : _dio = Dio(BaseOptions(
     baseUrl: Apiconfig.baseUrl,
     headers: {'Accept': 'application/json'},
   ));
 
-  Future<List<Producto>> getProductos() async {
+  Future<List<Venta>> getVentas() async {
     final token = await _authRepository.getToken();
     
     if (token == null) {
@@ -20,7 +20,7 @@ class ProductoService {
     }
 
     final Response response = await _dio.get(
-      '/Producto/GetAll',
+      '/Ventas/get',
       options: Options(headers: {
         'Authorization': 'Bearer ${token.Secret}',
       }),
@@ -35,15 +35,30 @@ class ProductoService {
     }
 
     return (response.data as List)
-        .map((json) => Producto.fromJson(json))
+        .map((json) => Venta.fromJson(json))
         .toList();
   }
 
-  Producto? findProductoById(List<Producto> productos, int id) {
-    try {
-      return productos.firstWhere((producto) => producto.idProducto == id);
-    } catch (e) {
-      return null;
+  Future<bool> crearVenta(Venta venta) async {
+    final token = await _authRepository.getToken();
+    
+    if (token == null) {
+      throw Exception("Token de autenticación no encontrado");
     }
+
+    final Response response = await _dio.post(
+      '/Venta',
+      data: venta.toJson(),
+      options: Options(headers: {
+        'Authorization': 'Bearer ${token.Secret}',
+        'Content-Type': 'application/json',
+      }),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('Error ${response.statusCode}: ${response.data}');
+    }
+
+    return response.data == true;
   }
 }

@@ -7,6 +7,7 @@ import 'UI/screen/pantalla_inicio.dart';
 import 'UI/screen/Categoria-page.dart';
 import 'UI/screen/producto_page.dart';
 import 'UI/screen/compras_page.dart';
+import 'package:gymmaster/guards/auth-guard.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -16,44 +17,54 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       page: LoginRoute.page,
       path: '/',
-      initial: true,
     ),
     AutoRoute(
       page: MainLayoutRoute.page,
-      path: '/',
+      path: '/home',
       title: (context, data) => 'GymMaster',
-    
+      guards: [AuthGuard()],
       children: [
         AutoRoute(
           page: PantallaRoute.page,
-          path: '',
+          path: 'inicio',
           title: (context, data) => 'Inicio',
+          initial: true,
         ),
-      
         AutoRoute(
           page: CategoriaRoute.page,
-          path: '',
+          path: 'categorias',
           title: (context, data) => 'Inventario',
         ),
-      
         AutoRoute(
           page: ProductoRoute.page,
-          path: '',
+          path: 'productos',
+          title: (context, data) => 'Productos',
         ),
-        
         AutoRoute(
           page: HistorialComprasRoute.page,
-          path: '',
+          path: 'compras',
           title: (context, data) => 'Historial de Compras',
         ),
-        
-        AutoRoute(page: AgregarCategoriaRoute.page,
-        path: ''
+        AutoRoute(
+          page: AgregarCategoriaRoute.page,
+          path: 'agregar-categoria',
         ),
-
-        AutoRoute(page: EditarCategoriaRoute.page,
-        path: ''
-        )
+        AutoRoute(
+          page: EditarCategoriaRoute.page,
+          path: 'editar-categoria',
+        ),
+        AutoRoute(
+          page: VentaRoute.page,
+          path: 'ventas',
+        ),
+        AutoRoute(
+          page: CompraDetailRoute.page,
+          path: 'compra-detail',
+        ),
+        AutoRoute(
+          page: AddCompraRoute.page,
+          path: 'add-compra',
+        ),
       ],
     ),
   ];

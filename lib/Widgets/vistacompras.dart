@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import '../data/models/compra-modelo.dart';
 import '../apps_colors.dart';
+import '../data/models/producto_modelo.dart';
 
 class VistaCompra extends StatelessWidget {
   const VistaCompra({
     super.key,
     required this.registro,
+    required this.onTap,
   });
 
   final RegistroDeCompra registro;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +19,10 @@ class VistaCompra extends StatelessWidget {
     final String formattedDate = '${registro.fechaCompra.day}/${registro.fechaCompra.month}/${registro.fechaCompra.year}';
 
     return GestureDetector(
-      onTap: () {
-        print('Compra #${registro.idCompra} seleccionada');
-      },
+      onTap: onTap,
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        color: AppsColors.sizedboxcolor,
+        color: AppsColors.primaryAccentColor,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
@@ -29,20 +30,30 @@ class VistaCompra extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Compra #${registro.idCompra}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppsColors.textPrimary,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Compra #${registro.idCompra}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppsColors.primary,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppsColors.primary,
+                    size: 16,
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Text(
                 'Fecha: $formattedDate',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppsColors.textPrimary.withOpacity(0.8),
+                  color: AppsColors.primary.withOpacity(0.8),
                 ),
               ),
               const SizedBox(height: 4),
@@ -51,7 +62,7 @@ class VistaCompra extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: AppsColors.textPrimary,
+                  color: AppsColors.primary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -59,7 +70,7 @@ class VistaCompra extends StatelessWidget {
                 'Items: ${registro.detalleCompras.length} productos',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppsColors.textPrimary.withOpacity(0.8),
+                  color: AppsColors.primary.withOpacity(0.8),
                 ),
               ),
               if (registro.detalleCompras.isNotEmpty)
@@ -69,7 +80,7 @@ class VistaCompra extends StatelessWidget {
                     'Producto ID: ${registro.detalleCompras[0].idProducto} x ${registro.detalleCompras[0].cantidad}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppsColors.textPrimary.withOpacity(0.7),
+                      color: AppsColors.primary.withOpacity(0.7),
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -79,7 +90,7 @@ class VistaCompra extends StatelessWidget {
                   '... y ${registro.detalleCompras.length - 1} más',
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppsColors.textPrimary.withOpacity(0.7),
+                    color: AppsColors.primary.withOpacity(0.7),
                     fontStyle: FontStyle.italic,
                   ),
                 ),

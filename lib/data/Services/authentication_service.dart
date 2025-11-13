@@ -1,16 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:gymmaster/data/models/token.dart'; // Importado para debugPrint
+import 'package:gymmaster/data/models/token.dart';
+import 'package:gymmaster/core/config/apiconfig.dart';
 
 class AuthenticationService
 {
-  final String apiUrl = 'http://10.0.2.2:5132/api';
-
   Future<Token> login(String usuario, String password) async {
     // 1. Configuración de Dio
-    Dio dio = Dio(BaseOptions(baseUrl: apiUrl, validateStatus: (status) => status! < 500));
-    String endpoint = '/Usuario/Login';
+  Dio dio = Dio(BaseOptions(baseUrl: Apiconfig.baseUrl));
     
-    // 2. Datos de la solicitud (coinciden con el esquema de Swagger)
+    String endpoint = '/Usuario/Login';
+
     final Map<String, String> data = {
       'nombre_Usuario': usuario,
       'contraseña': password,
@@ -24,18 +23,13 @@ class AuthenticationService
     } on DioException catch (e) {
       if (e.response != null) {
         final errorBody = e.response!.data;
-        // NOTA: Confirma que tu API usa la clave 'mensaje' para los errores.
-        final apiMessage = errorBody is Map && errorBody.containsKey('mensaje') 
-                           ? errorBody['mensaje'] 
-                           : 'Respuesta de error no estándar.';
+        final apiMessage = errorBody is Map && errorBody.containsKey('mensaje') ? errorBody['mensaje']: 'Respuesta de error no estándar.';
 
         throw Exception('Error de API (${e.response!.statusCode}): $apiMessage');
       } else {
-        // Fallo en la conexión de red (el problema inicial de IP/CORS)
         throw Exception('Error de conexión de red. Verifica la URL de la API y la configuración de CORS.');
       }
     } catch (e) {
-      // Manejo de cualquier otra excepción
       throw Exception('Error inesperado al iniciar sesión: $e');
     }
   }

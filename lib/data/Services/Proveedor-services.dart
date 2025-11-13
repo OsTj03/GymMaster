@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:gymmaster/data/models/producto_modelo.dart';
+import 'package:gymmaster/data/models/Proveedor-modelo.dart';
 import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/core/config/apiconfig.dart';
 
-class ProductoService {
+class ProveedorService {
   final Dio _dio;
   final AuthenticationRepository _authRepository = AuthenticationRepository();
 
-  ProductoService() : _dio = Dio(BaseOptions(
+  ProveedorService() : _dio = Dio(BaseOptions(
     baseUrl: Apiconfig.baseUrl,
     headers: {'Accept': 'application/json'},
   ));
 
-  Future<List<Producto>> getProductos() async {
+  Future<List<Proveedor>> getProveedores() async {
     final token = await _authRepository.getToken();
     
     if (token == null) {
@@ -20,7 +20,7 @@ class ProductoService {
     }
 
     final Response response = await _dio.get(
-      '/Producto/GetAll',
+      '/Proveedor/GetAll',
       options: Options(headers: {
         'Authorization': 'Bearer ${token.Secret}',
       }),
@@ -35,15 +35,14 @@ class ProductoService {
     }
 
     return (response.data as List)
-        .map((json) => Producto.fromJson(json))
+        .map((json) => Proveedor.fromJson(json))
         .toList();
   }
-
-  Producto? findProductoById(List<Producto> productos, int id) {
+  Proveedor? findProveedorByid(List<Proveedor> proveedores, int id) {
     try {
-      return productos.firstWhere((producto) => producto.idProducto == id);
+      return proveedores.firstWhere((proveedor) => proveedor.idProveedor == id);
     } catch (e) {
       return null;
-    }
+  }
   }
 }

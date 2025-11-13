@@ -51,7 +51,10 @@ class PantallaScreen extends StatelessWidget {
                       Navigator.of( context).pop();
                       AutoRouter.of(context).push(const CategoriaRoute());
                     }),
-                    _buildSquareButton(context, 'Ventas', Icons.monetization_on, () {}),
+                    _buildSquareButton(context, 'Ventas', Icons.monetization_on, () {
+                      Navigator.of( context).pop();
+                      AutoRouter.of(context).push(const VentaRoute());
+                    }),
                     _buildSquareButton(context, 'Compras', Icons.shopping_cart, () {
                       Navigator.of( context).pop();
                       AutoRouter.of(context).push(const HistorialComprasRoute());

@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:gymmaster/data/models/categoria-modelo.dart';
 import 'package:gymmaster/data/repositories/authentication_repository.dart';
+import 'package:gymmaster/core/config/apiconfig.dart';
 
 class CategoriaService {
   final Dio _dio;
   final AuthenticationRepository _authRepository = AuthenticationRepository();
 
   CategoriaService() : _dio = Dio(BaseOptions(
-    baseUrl: 'http://10.0.2.2:5132/api',
+    baseUrl: Apiconfig.baseUrl,
     headers: {'Accept': 'application/json'},
   ));
 

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,15 +18,39 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _authenticationService = AuthenticationRepository();
   final Map<String, String> formData = {};
   
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
+  bool _checkingAuth = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _autenticacionexiste();
+  }
+
+  Future<void> _autenticacionexiste() async {
+    try {
+      final token = await _authenticationService.getToken();
+      final isAuthenticated = token != null && token.Secret.isNotEmpty;
+      
+      if (isAuthenticated && mounted) {
+        context.router.replace(const MainLayoutRoute(children: [PantallaRoute()]));
+      }
+    } catch (e) {
+      // Manejo de errores si es necesario
+    } finally {
+      if (mounted) {
+        setState(() {
+          _checkingAuth = false;
+        });
+      }
+    }
+  }
 
   Future<void> submit() async {
     if (!formState.currentState!.validate()) {
-      debugPrint("Formulario no válido. Por favor, corrige");
       return;
     }
     try {
@@ -36,16 +59,40 @@ class _LoginScreenState extends State<LoginScreen> {
       await _authenticationService.login(usuario, password);
       
       if (mounted) {
-        context.router.replace(PantallaRoute());
-    }
-    }
-    on Exception catch (e) {
-      debugPrint("Error al iniciar sesión: $e");
+        context.router.replace(const MainLayoutRoute());
+      }
+    } on Exception catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error de inicio de sesión: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_checkingAuth) {
+      return Scaffold(
+        backgroundColor: AppsColors.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.fitness_center,
+                color: AppsColors.primaryAccentColor,
+                size: 80,
+              ),
+              const SizedBox(height: 20),
+              const CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppsColors.background,
       body: Center(
@@ -68,15 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // Icono del logo
                   Icon(
                     Icons.fitness_center,
                     color: AppsColors.primaryAccentColor,
                     size: 80,
                   ),
                   const SizedBox(height: 16),
-                  
-                  // Título de la aplicación
                   Text(
                     'GYM MASTER',
                     style: TextStyle(

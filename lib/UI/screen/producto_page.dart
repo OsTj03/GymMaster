@@ -14,7 +14,7 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductopageState extends State<ProductoPage> {
-  final ProductService _productService = ProductService();
+  final ProductoService _productService = ProductoService();
   List<Producto> _productos = [];
   bool _loading = true;
   String _error = '';
@@ -27,7 +27,7 @@ class _ProductopageState extends State<ProductoPage> {
 
   Future<void> _loadProducts() async {
     try {
-      final productos = await _productService.getProducts();
+      final productos = await _productService.getProductos();
       setState(() {
         _productos = productos;
         _loading = false;

@@ -15,8 +15,6 @@ class VistaProducto extends StatelessWidget {
 
   String _getImagePath() {
     final nombre = item.nombre.toLowerCase();
-    
-    // Buscar coincidencia exacta o parcial
     for (final key in _imageMap.keys) {
       if (nombre.contains(key)) {
         return _imageMap[key]!;

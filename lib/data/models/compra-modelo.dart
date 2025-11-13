@@ -75,3 +75,44 @@ class RegistroDeCompra {
     };
   }
 }
+
+//modelo nuevo crear compras
+class Compra {
+  final int idProveedor;
+  final DateTime fechaCompra;
+  final List<DetalleCompraItem> detalleCompra;
+
+  Compra({
+    required this.idProveedor,
+    required this.fechaCompra,
+    required this.detalleCompra,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id_Proveedor': idProveedor,
+      'fecha_Compra': fechaCompra.toIso8601String(),
+      'detalleCompra': detalleCompra.map((item) => item.toJson()).toList(),
+    };
+  }
+}
+
+class DetalleCompraItem {
+  final int idProducto;
+  final int cantidad;
+  final double precioUnitario;
+
+  DetalleCompraItem({
+    required this.idProducto,
+    required this.cantidad,
+    required this.precioUnitario,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id_Producto': idProducto,
+      'cantidad': cantidad,
+      'precio_Unitario': precioUnitario,
+    };
+  }
+}

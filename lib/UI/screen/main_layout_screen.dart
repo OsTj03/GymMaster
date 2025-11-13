@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/routes.gr.dart'; 
 import 'package:gymmaster/apps_colors.dart';
+
 
 @RoutePage()
 class MainLayoutScreen extends StatelessWidget {
@@ -70,7 +72,8 @@ drawer: Drawer(
             leading: const Icon(Icons.monetization_on),
             title: const Text('Ventas'),
             onTap: () {
-              // Agrega aquí la acción al presionar
+              Navigator.of( context).pop();
+              AutoRouter.of(context).replace(const VentaRoute());
             },
           ),
           ListTile(
@@ -89,10 +92,20 @@ drawer: Drawer(
               AutoRouter.of(context).replace(const ProductoRoute());
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
+            onTap: () async {
+              Navigator.of(context).pop();
+                final authRepository = AuthenticationRepository();
+                await authRepository.logout();
+              AutoRouter.of(context).replaceAll([LoginRoute()]);
+              },
+          ),
         ],
       ),
     ),
-      
+
       body: const AutoRouter(),
     );
   }

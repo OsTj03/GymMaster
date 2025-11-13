@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:gymmaster/apps_colors.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../../data/models/compra-modelo.dart';
-import '../../data/Services/regiscompra-service.dart';
-import '../../Widgets/vistacompras.dart';
+import '../../data/models/venta-modelo.dart';
+import '../../data/Services/venta-service.dart';
+import '../../Widgets/venta-vista.dart';
+import '../../apps_colors.dart';
 
 @RoutePage()
-class HistorialComprasPage extends StatefulWidget {
-  const HistorialComprasPage({super.key});
+class VentaPage extends StatefulWidget {
+  const VentaPage({super.key});
 
   @override
-  State<HistorialComprasPage> createState() => _HistorialComprasPageState();
+  State<VentaPage> createState() => _VentaPageState();
 }
 
-class _HistorialComprasPageState extends State<HistorialComprasPage> {
-  final CompraService _compraService = CompraService();
-  List<RegistroDeCompra> _registrosDeCompras = [];
+class _VentaPageState extends State<VentaPage> {
+  final VentaService _ventaService = VentaService();
+  List<Venta> _ventas = [];
   bool _loading = true;
   String _error = '';
 
   @override
   void initState() {
     super.initState();
-    _loadCompras();
+    _loadVentas();
   }
 
-  Future<void> _loadCompras() async {
+  Future<void> _loadVentas() async {
     try {
-      final compras = await _compraService.getCompras();
+      final ventas = await _ventaService.getVentas();
       setState(() {
-        _registrosDeCompras = compras;
+        _ventas = ventas;
         _loading = false;
       });
     } catch (e) {
       setState(() {
-        _error = 'Error al cargar compras: $e';
+        _error = 'Error al cargar ventas: $e';
         _loading = false;
       });
     }
@@ -52,18 +52,35 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image.asset(
-                  'assets/images/comprasv2.png',
+                  'assets/images/historialventa.png',
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  height: 250, 
+                  height: 250,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 200,
+                      width: double.infinity,
+                      color: Colors.green,
+                      child: Center(
+                        child: Text(
+                          'Historial de Ventas',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                  padding: EdgeInsets.all(8.0),
                 ),
               ],
             ),
           ),
-
+          
           if (_loading)
             const SliverToBoxAdapter(
               child: Center(
@@ -82,12 +99,12 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
                 ),
               ),
             )
-          else if (_registrosDeCompras.isEmpty)
+          else if (_ventas.isEmpty)
             const SliverToBoxAdapter(
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
-                  child: Text('No hay compras registradas'),
+                  child: Text('No hay ventas registradas'),
                 ),
               ),
             )
@@ -95,27 +112,15 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  final registro = _registrosDeCompras[index];
-                  return VistaCompra(
-                    registro: registro,
-                    onTap: () {
-                      context.router.push(CompraDetailRoute(compra: registro));
-                    },
-                  );
+                  final venta = _ventas[index];
+                  return VistaVenta(venta: venta);
                 },
-                childCount: _registrosDeCompras.length,
+                childCount: _ventas.length,
               ),
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await context.router.push(AddCompraRoute());
-          _loadCompras();
-        },
-        child: Icon(Icons.add),
-        backgroundColor:AppsColors.textPrimary,
-      ),
+      // BOTÓN ELIMINADO - sin floatingActionButton
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gymmaster/data/Services/authentication_service.dart';
 import 'package:gymmaster/data/models/token.dart';
@@ -24,4 +23,9 @@ class AuthenticationRepository {
     final Map<String, dynamic> tokenMap = jsonDecode(tokenJson);
     return Token.fromJson(tokenMap);
   }
+
+  Future<void> logout() async {
+  await storage.delete(key: SecureStorageKeys.tokenKey);
+  }
 }
+
