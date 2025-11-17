@@ -25,20 +25,24 @@ class _ProductopageState extends State<ProductoPage> {
     _loadProducts();
   }
 
-  Future<void> _loadProducts() async {
-    try {
-      final productos = await _productService.getProductos();
+ Future<void> _loadProducts() async {
+  try {
+    final productos = await _productService.getProductos();
+    if (mounted) { 
       setState(() {
         _productos = productos;
         _loading = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar productos: $e';
         _loading = false;
       });
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {

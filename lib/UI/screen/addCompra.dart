@@ -39,36 +39,43 @@ class _AddCompraPageState extends State<AddCompraPage> {
     _loadProductos();
   }
 
-  Future<void> _loadProveedores() async {
-    try {
-      final proveedores = await _proveedorService.getProveedores();
+Future<void> _loadProveedores() async {
+  try {
+    final proveedores = await _proveedorService.getProveedores();
+    if (mounted) { 
       setState(() {
         _proveedores = proveedores;
         _loadingProveedores = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar proveedores: $e';
         _loadingProveedores = false;
       });
     }
   }
+}
 
-  Future<void> _loadProductos() async {
-    try {
-      final productos = await _productoService.getProductos();
+Future<void> _loadProductos() async {
+  try {
+    final productos = await _productoService.getProductos();
+    if (mounted) { 
       setState(() {
         _productos = productos;
         _loadingProductos = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar productos: $e';
         _loadingProductos = false;
       });
     }
   }
-
+}
   void _agregarProducto() {
     showDialog(
       context: context,
@@ -152,31 +159,24 @@ class _AddCompraPageState extends State<AddCompraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nueva Compra'),
-        backgroundColor: AppsColors.background,
-        foregroundColor: AppsColors.textPrimary,
-        actions: [
-          if (_enviando)
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              ),
-            ),
-        ],
-      ),
+      backgroundColor: AppsColors.primaryA,
+      
+
       body: _error.isNotEmpty
           ? Center(child: Text(_error))
           : Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
+                  const Text(
+                    'Nueva Compra',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppsColors.primaryAccentColor,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   _buildProveedorSelector(),
                   const SizedBox(height: 10),
                   Expanded(
@@ -192,6 +192,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
 
   Widget _buildProveedorSelector() {
     return Card(
+      color: AppsColors.primary,
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -201,6 +202,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
             const Text(
               'Proveedor',
               style: TextStyle(
+                color: AppsColors.primaryAccentColor,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -212,19 +214,22 @@ class _AddCompraPageState extends State<AddCompraPage> {
               DropdownButtonFormField<Proveedor>(
                 value: _proveedorSeleccionado,
                 isExpanded: true,
-                decoration: const InputDecoration(
+                style: const TextStyle(color: AppsColors.textPrimary),
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  hintStyle: TextStyle(color: AppsColors.textPrimary),
                   hintText: 'Selecciona un proveedor',
                   contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   isDense: true,
                 ),
+                dropdownColor: AppsColors.tercernivel,
                 items: _proveedores.map((proveedor) {
                   return DropdownMenuItem<Proveedor>(
                     value: proveedor,
                     child: Text(
                       proveedor.nombreEmpresa,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: 13, color: AppsColors.textPrimary),
                     ),
                   );
                 }).toList(),
@@ -242,6 +247,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
 
   Widget _buildListaProductos() {
     return Card(
+      color: AppsColors.primary,
       elevation: 4,
       child: Container(
         constraints: BoxConstraints(
@@ -256,6 +262,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
                 const Text(
                   'Productos',
                   style: TextStyle(
+                    color: AppsColors.primaryAccentColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -265,11 +272,14 @@ class _AddCompraPageState extends State<AddCompraPage> {
                   icon: const Icon(Icons.add, size: 16),
                   label: const Text(
                     'Agregar',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12,
+                    color: AppsColors.accent),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  ),
+                    backgroundColor: AppsColors.primaryAccentColor,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6
+                    ),
+                ),
                 ),
               ],
             ),
@@ -329,6 +339,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
     final subtotal = detalle.cantidad * detalle.precioUnitario;
     
     return Card(
+      color: AppsColors.sizedboxcolor,
       margin: const EdgeInsets.only(bottom: 6),
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -349,6 +360,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
+                      color: AppsColors.primaryAccentColor,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -356,11 +368,11 @@ class _AddCompraPageState extends State<AddCompraPage> {
                   const SizedBox(height: 2),
                   Text(
                     'Cantidad: ${detalle.cantidad}',
-                    style: const TextStyle(fontSize: 11),
+                    style: const TextStyle(fontSize: 11, color: AppsColors.textPrimary),
                   ),
                   Text(
                     'Precio: C\$${detalle.precioUnitario.toStringAsFixed(2)} c/u',
-                    style: const TextStyle(fontSize: 11),
+                    style: const TextStyle(fontSize: 11, color: AppsColors.textPrimary),
                   ),
                 ],
               ),
@@ -403,7 +415,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
   Widget _buildTotalYBoton() {
     return Card(
       elevation: 4,
-      color: Colors.blue[50],
+      color: AppsColors.primary,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -414,6 +426,7 @@ class _AddCompraPageState extends State<AddCompraPage> {
                 const Text(
                   'Total:',
                   style: TextStyle(
+                    color: AppsColors.primaryAccentColor,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -434,8 +447,8 @@ class _AddCompraPageState extends State<AddCompraPage> {
               child: ElevatedButton(
                 onPressed: _enviando ? null : _guardarCompra,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppsColors.background,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppsColors.primaryAccentColor,
+                  foregroundColor: AppsColors.primary,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: _enviando

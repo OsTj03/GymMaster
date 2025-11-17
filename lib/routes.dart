@@ -16,9 +16,10 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(
       page: LoginRoute.page,
-      path: '/',
+      path: '/login',
     ),
     AutoRoute(
+      initial: true,
       page: MainLayoutRoute.page,
       path: '/home',
       title: (context, data) => 'GymMaster',

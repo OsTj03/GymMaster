@@ -85,7 +85,7 @@ class PantallaScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppsColors.accent, AppsColors.accent.withOpacity(0.7)],
+              colors: [AppsColors.accent, AppsColors.primary.withOpacity(0.7)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -97,7 +97,7 @@ class PantallaScreen extends StatelessWidget {
               Icon(
                 icon,
                 size: 50,
-                color: Colors.white,
+                color: AppsColors.primaryAccentColor,
               ),
               const SizedBox(height: 10),
               Text(
@@ -106,7 +106,7 @@ class PantallaScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppsColors.primaryAccentColor,
                 ),
               ),
             ],

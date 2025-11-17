@@ -21,7 +21,6 @@ class CompraDetailPage extends StatefulWidget {
 
 class _CompraDetailPageState extends State<CompraDetailPage> {
   Proveedor? _proveedor;
-  //Aqui se mapean los productos por id para poder obtener el nombre
   final Map<int, Producto> _productosMap = {};
   bool _loadingProveedor = true;
   bool _loadingProductos = true;
@@ -33,190 +32,187 @@ class _CompraDetailPageState extends State<CompraDetailPage> {
     _loadProductos();
   }
 
-  Future<void> _loadProveedor() async {
-    try {
-      final proveedorService = ProveedorService();
-      final proveedores = await proveedorService.getProveedores();
-      
-      _proveedor = proveedorService.findProveedorByid(
-        proveedores, 
-        widget.compra.idProveedor
-      );
+Future<void> _loadProveedor() async {
+  try {
+    final proveedorService = ProveedorService();
+    final proveedores = await proveedorService.getProveedores();
+    _proveedor = proveedorService.findProveedorByid(
+      proveedores, 
+      widget.compra.idProveedor
+    );
 
+    if (mounted) { 
       setState(() {
         _loadingProveedor = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _loadingProveedor = false;
       });
     }
   }
+}
+Future<void> _loadProductos() async {
+  try {
+    final productoService = ProductoService();
+    final productos = await productoService.getProductos();
 
-  Future<void> _loadProductos() async {
-    try {
-      final productoService = ProductoService();
-      final productos = await productoService.getProductos();
-
-      //se crea mapeo para busqueda rapida por id del productp
-      for (final producto in productos) {
-        _productosMap[producto.idProducto] = producto;
-      }
-
+    for (final producto in productos) {
+      _productosMap[producto.idProducto] = producto;
+    }
+    if (mounted) { 
       setState(() {
         _loadingProductos = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _loadingProductos = false;
       });
     }
   }
+}
 
-  //metodo donde se obtiene el nombre del producto por id
   String _obtenerNombreProducto(int idProducto) {
     final producto = _productosMap[idProducto];
     return producto?.nombre ?? 'Producto #$idProducto';
   }
 
-  //metodo para obtener la descripcion del producto por id
   String? _obtenerDescripcionProducto(int idProducto) {
     final producto = _productosMap[idProducto];
     return producto?.descripcion;
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppsColors.background,
-      appBar: AppBar(
-        title: const Text('Detalle de Compra'),
-        backgroundColor: AppsColors.accent,
-        foregroundColor: Colors.white,
-      ),
-      body: (_loadingProveedor || _loadingProductos)
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInfoCard(),
-                  const SizedBox(height: 20),
-                  _buildProveedorCard(),
-                  const SizedBox(height: 20),
-                  _buildDetallesCard(),
-                ],
-              ),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: AppsColors.primaryA,
+    body: (_loadingProveedor || _loadingProductos)
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Detalle de la compra',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppsColors.primaryAccentColor,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                
+                _buildUnifiedCard(),
+              ],
             ),
-    );
-  }
+          ),
+  );
+}
 
-  Widget _buildInfoCard() {
-    return Card(
+  Widget _buildUnifiedCard() {
+    const dividerSpace = SizedBox(height: 16);
+    final cardDivider = Divider(color: AppsColors.primaryAccentColor, thickness: 1);
+    
+    final internalLabelStyle = const TextStyle(
+      fontWeight: FontWeight.bold,
       color: AppsColors.textPrimary,
+    );
+
+    final internalValueStyle = const TextStyle(color: AppsColors.textPrimary);
+
+    return Card(
+      color: AppsColors.primary,
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            
             Text(
               'Compra #${widget.compra.idCompra}',
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: AppsColors.primary,
+                color: AppsColors.primaryAccentColor,
               ),
             ),
             const SizedBox(height: 12),
-            _buildInfoRow('Fecha:', 
-              '${widget.compra.fechaCompra.day}/${widget.compra.fechaCompra.month}/${widget.compra.fechaCompra.year}',
-              valueStyle: const TextStyle(color: AppsColors.primary)),
-            _buildInfoRow('Hora:', 
-              '${widget.compra.fechaCompra.hour}:${widget.compra.fechaCompra.minute.toString().padLeft(2, '0')}',
-              valueStyle: const TextStyle(color: AppsColors.primary)),
-            const SizedBox(height: 8),
-            Divider(color: AppsColors.accent),
-            const SizedBox(height: 8),
+            
             _buildInfoRow(
-              'Total:',
-              'C\$${widget.compra.costoTotal.toStringAsFixed(2)}',
-              valueStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
+              'Fecha:',
+              '${widget.compra.fechaCompra.day}/${widget.compra.fechaCompra.month}/${widget.compra.fechaCompra.year}',
+              labelStyle: internalLabelStyle,
+              valueStyle: internalValueStyle,
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProveedorCard() {
-    return Card(
-      color: AppsColors.textPrimary,
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            _buildInfoRow(
+              'Hora:',
+              '${widget.compra.fechaCompra.hour}:${widget.compra.fechaCompra.minute.toString().padLeft(2, '0')}',
+              labelStyle: internalLabelStyle,
+              valueStyle: internalValueStyle,
+            ),
+            
+            dividerSpace,
+            cardDivider,
+            
             const Text(
               'Información del Proveedor',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: AppsColors.primaryAccentColor,
               ),
             ),
             const SizedBox(height: 12),
+            
             if (_proveedor == null)
               const Text('Proveedor no encontrado', style: TextStyle(color: Colors.red))
             else
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInfoRow('Empresa:', _proveedor!.nombreEmpresa, valueStyle: const TextStyle(color: AppsColors.primary)),
-                  _buildInfoRow('Teléfono:', _proveedor!.telefono.toString(), valueStyle: const TextStyle(color: AppsColors.primary)),
-                  _buildInfoRow('Email:', _proveedor!.correo, valueStyle: const TextStyle(color: AppsColors.primary)),
-                  _buildInfoRow('Dirección:', _proveedor!.direccion, valueStyle: const TextStyle(color: AppsColors.primary)),
+                  _buildInfoRow('Empresa:', _proveedor!.nombreEmpresa, labelStyle: internalLabelStyle, valueStyle: internalValueStyle),
+                  _buildInfoRow('Teléfono:', _proveedor!.telefono.toString(), labelStyle: internalLabelStyle, valueStyle: internalValueStyle),
+                  _buildInfoRow('Email:', _proveedor!.correo, labelStyle: internalLabelStyle, valueStyle: internalValueStyle),
+                  _buildInfoRow('Dirección:', _proveedor!.direccion, labelStyle: internalLabelStyle, valueStyle: internalValueStyle),
                 ],
               ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDetallesCard() {
-    return Card(
-      color: AppsColors.textPrimary,
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+              
+            dividerSpace,
+            cardDivider,
+            
             const Text(
               'Productos Comprados',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: AppsColors.primaryAccentColor,
               ),
             ),
             const SizedBox(height: 12),
+            
             ...widget.compra.detalleCompras.map((detalle) =>
               _buildDetalleItem(detalle)
             ).toList(),
+            
             const SizedBox(height: 12),
-            Divider(color: Colors.grey[300]),
+            cardDivider,
             const SizedBox(height: 8),
+
             _buildInfoRow(
               'Total General:',
               'C\$${widget.compra.costoTotal.toStringAsFixed(2)}',
+              labelStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppsColors.primaryAccentColor,
+              ),
               valueStyle: const TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
@@ -235,7 +231,7 @@ class _CompraDetailPageState extends State<CompraDetailPage> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
+        border: Border.all(color: AppsColors.primaryAccentColor),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -247,18 +243,19 @@ class _CompraDetailPageState extends State<CompraDetailPage> {
               children: [
                 Text(
                   nombreProducto,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(color:AppsColors.primaryAccentColor ,fontWeight: FontWeight.bold),
                 ),
                 if (descripcionProducto != null && descripcionProducto.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       descripcionProducto,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                      style: TextStyle(color:AppsColors.textPrimary, fontSize: 12),
                     ),
                   ),
                 const SizedBox(height: 4),
-                Text('Cantidad: ${detalle.cantidad}'),
+                Text('Cantidad: ${detalle.cantidad}',
+                  style: TextStyle(color:AppsColors.primaryAccentColor)),
               ],
             ),
           ),
@@ -267,9 +264,10 @@ class _CompraDetailPageState extends State<CompraDetailPage> {
             children: [
               Text(
                 'C\$${detalle.precioUnitario.toStringAsFixed(2)} NIO',
-                style: const TextStyle(fontWeight: FontWeight.w500),
+                style: const TextStyle(fontWeight: FontWeight.w500
+                  ,color: Colors.blue),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 40),
               Text(
                 'C\$${detalle.subTotal.toStringAsFixed(2)}',
                 style: const TextStyle(
@@ -284,14 +282,24 @@ class _CompraDetailPageState extends State<CompraDetailPage> {
     );
   }
 
-  Widget _buildInfoRow(String label, String value, {TextStyle? valueStyle}) {
+  Widget _buildInfoRow(
+    String label,
+    String value, {
+    TextStyle? labelStyle,
+    TextStyle? valueStyle,
+  }) {
+    final defaultLabelStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      color: AppsColors.primaryAccentColor,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
           Text(
             label,
-            style: const TextStyle(fontWeight: FontWeight.w500),
+            style: labelStyle ?? defaultLabelStyle,
           ),
           const SizedBox(width: 8),
           Expanded(

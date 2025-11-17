@@ -22,7 +22,7 @@ class VistaCompra extends StatelessWidget {
       onTap: onTap,
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        color: AppsColors.primaryAccentColor,
+        color: AppsColors.primary,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
@@ -38,12 +38,12 @@ class VistaCompra extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppsColors.primary,
+                      color: AppsColors.primaryAccentColor,
                     ),
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: AppsColors.primary,
+                    color: AppsColors.primaryAccentColor,
                     size: 16,
                   ),
                 ],
@@ -53,7 +53,7 @@ class VistaCompra extends StatelessWidget {
                 'Fecha: $formattedDate',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppsColors.primary.withOpacity(0.8),
+                  color: AppsColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 4),
@@ -62,7 +62,7 @@ class VistaCompra extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: AppsColors.primary,
+                  color: AppsColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -70,7 +70,7 @@ class VistaCompra extends StatelessWidget {
                 'Items: ${registro.detalleCompras.length} productos',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppsColors.primary.withOpacity(0.8),
+                  color: AppsColors.primaryAccentColor.withOpacity(0.8),
                 ),
               ),
               if (registro.detalleCompras.isNotEmpty)
@@ -80,7 +80,7 @@ class VistaCompra extends StatelessWidget {
                     'Producto ID: ${registro.detalleCompras[0].idProducto} x ${registro.detalleCompras[0].cantidad}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppsColors.primary.withOpacity(0.7),
+                      color: AppsColors.primaryAccentColor.withOpacity(0.7),
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -90,7 +90,7 @@ class VistaCompra extends StatelessWidget {
                   '... y ${registro.detalleCompras.length - 1} más',
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppsColors.primary.withOpacity(0.7),
+                    color: AppsColors.primaryAccentColor.withOpacity(0.7),
                     fontStyle: FontStyle.italic,
                   ),
                 ),

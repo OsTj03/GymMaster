@@ -19,7 +19,7 @@ class VistaCategoria extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: GestureDetector(
         onTap: () {
-          // Puedes agregar navegación al detalle aquí si quieres
+        
         },
         child: Container(
           color: AppsColors.primaryAccentColor, 
@@ -69,7 +69,6 @@ class VistaCategoria extends StatelessWidget {
                   ),
                 )
               ),
-              // Botones de acción
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

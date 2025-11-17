@@ -26,25 +26,29 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
     _loadCompras();
   }
 
-  Future<void> _loadCompras() async {
-    try {
-      final compras = await _compraService.getCompras();
+Future<void> _loadCompras() async {
+  try {
+    final compras = await _compraService.getCompras();
+    if (mounted) { 
       setState(() {
         _registrosDeCompras = compras;
         _loading = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar compras: $e';
         _loading = false;
       });
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppsColors.background,
+      backgroundColor: AppsColors.tercernivel,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
@@ -113,8 +117,9 @@ class _HistorialComprasPageState extends State<HistorialComprasPage> {
           await context.router.push(AddCompraRoute());
           _loadCompras();
         },
+        //boton de agregar compra
         child: Icon(Icons.add),
-        backgroundColor:AppsColors.textPrimary,
+        backgroundColor:AppsColors.primaryAccentColor,
       ),
     );
   }
