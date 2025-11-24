@@ -17,7 +17,7 @@ class PantallaScreen extends StatelessWidget {
             'assets/images/gymini.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
-            height: 250,
+            height:240 ,
           ),
           
           const SizedBox(height: 20),
@@ -28,11 +28,11 @@ class PantallaScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Bienvenido a GymMaster',
+                  'bienvenido a GymMaster',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppsColors.textPrimary,
+                    color: AppsColors.primaryAccentColor,
                   ),
                 ),
               
@@ -85,7 +85,7 @@ class PantallaScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppsColors.accent, AppsColors.primary.withOpacity(0.7)],
+              colors: [AppsColors.accent, AppsColors.sizedboxcolor.withOpacity(0.9)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -97,7 +97,7 @@ class PantallaScreen extends StatelessWidget {
               Icon(
                 icon,
                 size: 50,
-                color: AppsColors.primaryAccentColor,
+                color: AppsColors.textPrimary,
               ),
               const SizedBox(height: 10),
               Text(

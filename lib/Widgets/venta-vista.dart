@@ -20,7 +20,7 @@ class VistaVenta extends StatelessWidget {
         onTap: () {
         },
         child: Container(
-          color: AppsColors.primaryAccentColor,
+          color: AppsColors.primary,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           child: Row(
             children: [
@@ -28,12 +28,12 @@ class VistaVenta extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: AppsColors.accent,
+                  color: AppsColors.primaryAccentColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.receipt,
-                  color: Colors.white,
+                  color: AppsColors.tercernivel,
                   size: 32,
                 ),
               ),
@@ -48,7 +48,7 @@ class VistaVenta extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppsColors.accent, 
+                          color: AppsColors.primaryAccentColor, 
                         ),
                       ),
                       Padding(
@@ -57,7 +57,7 @@ class VistaVenta extends StatelessWidget {
                           '$formattedDate - $formattedTime',
                           style: const TextStyle(
                             fontSize: 14,
-                            color: AppsColors.accent, 
+                            color: AppsColors.textPrimary,
                           ),
                         ),
                       ),
@@ -67,7 +67,7 @@ class VistaVenta extends StatelessWidget {
                           '${venta.detalleVenta.length} productos',
                           style: const TextStyle(
                             fontSize: 12,
-                            color: AppsColors.accent, 
+                            color: AppsColors.textPrimary, 
                           ),
                         ),
                       )
@@ -83,14 +83,14 @@ class VistaVenta extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppsColors.accent, 
+                      color: AppsColors.textPrimary, 
                     ),
                   ),
                   Text(
                     'IVA: \$${venta.iva.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 12,
-                      color: AppsColors.accent, 
+                      color: AppsColors.textPrimary, 
                     ),
                   ),
                 ],

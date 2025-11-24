@@ -22,7 +22,7 @@ class VistaCategoria extends StatelessWidget {
         
         },
         child: Container(
-          color: AppsColors.primaryAccentColor, 
+          color: AppsColors.primary,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           child: Row(
             children: [
@@ -30,12 +30,12 @@ class VistaCategoria extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: AppsColors.accent,
+                  color: AppsColors.primaryAccentColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.category,
-                  color: Colors.white,
+                  color: AppsColors.tercernivel,
                   size: 32,
                 ),
               ),
@@ -50,7 +50,7 @@ class VistaCategoria extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppsColors.accent, 
+                          color: AppsColors.primaryAccentColor, 
                         ),
                       ),
                       Padding(
@@ -59,7 +59,7 @@ class VistaCategoria extends StatelessWidget {
                           categoria.descripcion,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: AppsColors.accent, 
+                            color: AppsColors.textPrimary, 
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

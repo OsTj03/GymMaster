@@ -26,25 +26,28 @@ class _VentaPageState extends State<VentaPage> {
     _loadVentas();
   }
 
-  Future<void> _loadVentas() async {
-    try {
-      final ventas = await _ventaService.getVentas();
+Future<void> _loadVentas() async {
+  try {
+    final ventas = await _ventaService.getVentas();
+    if (mounted) {
       setState(() {
         _ventas = ventas;
         _loading = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar ventas: $e';
         _loading = false;
       });
     }
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppsColors.background,
+      backgroundColor: AppsColors.tercernivel,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(

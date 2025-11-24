@@ -76,19 +76,23 @@ class _AgregarCategoriaPageState extends State<AgregarCategoriaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 245, 243, 243),
-      appBar: AppBar(
-        title: Text('Agregar Categoría'),
-        backgroundColor: AppsColors.background,
-        foregroundColor: AppsColors.textPrimary,
-      ),
+      backgroundColor: AppsColors.textPrimary,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
+              const Text(
+                'Agregar Nueva Categoría',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _nombreController,
                 decoration: InputDecoration(
@@ -135,7 +139,7 @@ class _AgregarCategoriaPageState extends State<AgregarCategoriaPage> {
                         _estado = value;
                       });
                     },
-                    activeColor: AppsColors.sizedboxcolor,
+                    activeColor: AppsColors.textPrimary,
                   ),
                   Text(_estado ? 'Activa' : 'Inactiva'),
                 ],

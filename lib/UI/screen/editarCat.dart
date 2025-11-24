@@ -90,19 +90,19 @@ class _EditarCategoriaPageState extends State<EditarCategoriaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Editar Categoría'),
-        backgroundColor: AppsColors.background,
-        iconTheme: IconThemeData(color: AppsColors.textPrimary),
-        foregroundColor: AppsColors.textPrimary,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Text('Editar Categoría',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
+              SizedBox(height: 24),
               TextFormField(
                 controller: _nombreController,
                 decoration: InputDecoration(

@@ -31,14 +31,14 @@ class VistaProducto extends StatelessWidget {
       child: GestureDetector(
         onTap: () {},
         child: Container(
-          color: AppsColors.primaryAccentColor, 
+          color: AppsColors.primaryA, 
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container( 
-                  color: AppsColors.accent, 
+                  color: AppsColors.primaryAccentColor, 
                   width: 72,
                   height: 72,
                   child: Image.asset(
@@ -47,7 +47,7 @@ class VistaProducto extends StatelessWidget {
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(
                         Icons.shopping_bag,
-                        color: Colors.white,
+                        color: AppsColors.tercernivel,
                         size: 32,
                       );
                     },
@@ -65,7 +65,7 @@ class VistaProducto extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppsColors.accent, 
+                          color: AppsColors.primaryAccentColor, 
                         ),
                       ),
                       Padding(
@@ -74,7 +74,7 @@ class VistaProducto extends StatelessWidget {
                           item.descripcion,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: AppsColors.accent, 
+                            color: AppsColors.textPrimary, 
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -88,11 +88,11 @@ class VistaProducto extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min, 
                 children: [
                   Text(
-                    'Ver detalles',
+                    '',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: AppsColors.accent, 
+                      color: AppsColors.textPrimary, 
                     ),
                   ),
                 ]

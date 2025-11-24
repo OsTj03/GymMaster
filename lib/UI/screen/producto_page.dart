@@ -25,10 +25,10 @@ class _ProductopageState extends State<ProductoPage> {
     _loadProducts();
   }
 
- Future<void> _loadProducts() async {
+Future<void> _loadProducts() async {
   try {
     final productos = await _productService.getProductos();
-    if (mounted) { 
+    if (mounted) {
       setState(() {
         _productos = productos;
         _loading = false;

@@ -26,26 +26,30 @@ class _CategoriaPageState extends State<CategoriaPage> {
     _loadCategorias();
   }
 
-  Future<void> _loadCategorias() async {
-    try {
-      final categorias = await _categoriaService.getCategorias();
+Future<void> _loadCategorias() async {
+  try {
+    final categorias = await _categoriaService.getCategorias();
+    
+    if (mounted) {
       setState(() {
         _categorias = categorias;
         _loading = false;
       });
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         _error = 'Error al cargar categorías: $e';
         _loading = false;
       });
     }
   }
+}
 
   Future<void> _eliminarCategoria(int id) async {
     try {
       final success = await _categoriaService.eliminarCategoria(id);
       if (success) {
-        // Remover la categoría de la lista localmente
         setState(() {
           _categorias.removeWhere((categoria) => categoria.categoriaID == id);
         });
@@ -70,7 +74,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppsColors.background,
+      backgroundColor: AppsColors.tercernivel,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
@@ -155,7 +159,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
           await context.router.push(AgregarCategoriaRoute());
           _loadCategorias();
         },
-        backgroundColor: AppsColors.textPrimary,
+        backgroundColor: AppsColors.primaryAccentColor,
         child: Icon(Icons.add),
       ),
     );

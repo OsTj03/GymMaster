@@ -16,7 +16,7 @@ class MainLayoutScreen extends StatelessWidget {
     final String currentTitle = AutoRouter.of(context).current.title(context) ?? 'Gymmaste';
 
     return Scaffold(
-      backgroundColor: AppsColors.background,
+      backgroundColor: AppsColors.tercernivel,
         appBar: AppBar(
           title: Text(currentTitle),
           titleTextStyle: const TextStyle(
