@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/models/categoria-modelo.dart';
-import '../apps_colors.dart';
+import '../core/config/apps_colors.dart';
 
 class VistaCategoria extends StatelessWidget {
   const VistaCategoria({

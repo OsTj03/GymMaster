@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:gymmaster/apps_colors.dart';
+import 'package:gymmaster/core/config/apps_colors.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../../data/models/compra-modelo.dart';
 import '../../data/models/Proveedor-modelo.dart';

@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../../data/models/categoria-modelo.dart';
 import '../../data/services/categoria-services.dart';
-import '../../apps_colors.dart';
+import '../../core/config/apps_colors.dart';
 
 @RoutePage()
 class AgregarCategoriaPage extends StatefulWidget {

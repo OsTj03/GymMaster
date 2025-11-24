@@ -65,7 +65,7 @@ Future<bool> crearCategoria(Categoria categoria) async {
 
   return response.data == true;
 }
-  // En CategoriaService, corrige el método:
+
 Future<bool> eliminarCategoria(int id) async {
   final token = await _authRepository.getToken();
   
@@ -81,8 +81,8 @@ Future<bool> eliminarCategoria(int id) async {
     }),
   );
 
-  print('🗑️ Eliminando categoría ID: $id'); // Debug
-  print('📥 Respuesta: ${response.statusCode} - ${response.data}');
+  print('Eliminando categoría ID: $id'); // Debug
+  print('Respuesta: ${response.statusCode} - ${response.data}');
 
   if (response.statusCode != 200 && response.statusCode != 204) {
     throw Exception('Error ${response.statusCode}: ${response.data}');

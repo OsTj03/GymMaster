@@ -97,7 +97,7 @@ Future<void> _loadProducts() async {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 final producto = _productos[index];
-                return VistaProducto(item: producto); // Cambiado a VistaProducto
+                return VistaProducto(item: producto);
               },
               childCount: _productos.length,
             ),

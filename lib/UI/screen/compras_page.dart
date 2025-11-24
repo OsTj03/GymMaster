@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:gymmaster/apps_colors.dart';
+import 'package:gymmaster/core/config/apps_colors.dart';
 import 'package:gymmaster/routes.gr.dart';
 import '../../data/models/compra-modelo.dart';
 import '../../data/Services/regiscompra-service.dart';
@@ -59,7 +59,7 @@ Future<void> _loadCompras() async {
                   'assets/images/comprasv2.png',
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  height: 250, 
+                  height: 250,
                 ),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/data/models/categoria-modelo.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../../apps_colors.dart';
+import '../../core/config/apps_colors.dart';
 import '../../data/Services/categoria-services.dart';
 import '../../Widgets/categoria-vista.dart';
 

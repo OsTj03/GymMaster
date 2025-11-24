@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import '../../apps_colors.dart';
+import '../../core/config/apps_colors.dart';
 import 'package:gymmaster/routes.gr.dart';
 
 @RoutePage()
@@ -36,7 +36,6 @@ class PantallaScreen extends StatelessWidget {
                   ),
                 ),
               
-                // Espacio debajo de la imagen
                 const SizedBox(height: 10),
                 
                 GridView.count(
@@ -48,19 +47,15 @@ class PantallaScreen extends StatelessWidget {
                   childAspectRatio: 1.0,
                   children: <Widget>[
                     _buildSquareButton(context, 'Categoria', Icons.category, () {
-                      Navigator.of( context).pop();
                       AutoRouter.of(context).push(const CategoriaRoute());
                     }),
                     _buildSquareButton(context, 'Ventas', Icons.monetization_on, () {
-                      Navigator.of( context).pop();
                       AutoRouter.of(context).push(const VentaRoute());
                     }),
                     _buildSquareButton(context, 'Compras', Icons.shopping_cart, () {
-                      Navigator.of( context).pop();
                       AutoRouter.of(context).push(const HistorialComprasRoute());
                     }),
                     _buildSquareButton(context, 'Productos', Icons.fitness_center, () {
-                      Navigator.of( context).pop();
                       AutoRouter.of(context).push(const ProductoRoute());
                     }),
                   ],

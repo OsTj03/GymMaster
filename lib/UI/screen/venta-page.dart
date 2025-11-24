@@ -4,7 +4,7 @@ import 'package:gymmaster/routes.gr.dart';
 import '../../data/models/venta-modelo.dart';
 import '../../data/Services/venta-service.dart';
 import '../../Widgets/venta-vista.dart';
-import '../../apps_colors.dart';
+import '../../core/config/apps_colors.dart';
 
 @RoutePage()
 class VentaPage extends StatefulWidget {

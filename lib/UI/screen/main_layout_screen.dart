@@ -1,10 +1,8 @@
-// lib/layout/main_layout_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/routes.gr.dart'; 
-import 'package:gymmaster/apps_colors.dart';
+import 'package:gymmaster/core/config/apps_colors.dart';
 
 
 @RoutePage()
@@ -17,7 +15,7 @@ class MainLayoutScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppsColors.tercernivel,
-        appBar: AppBar(
+      appBar: AppBar(
           title: Text(currentTitle),
           titleTextStyle: const TextStyle(
             fontSize: 20,
@@ -35,77 +33,76 @@ class MainLayoutScreen extends StatelessWidget {
             },
           ),
         ),
-drawer: Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: AppsColors.primary,
-            ),
-            child: Text(
-              'Menú de Navegación',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: AppsColors.primary,
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                'Menú de Navegación',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Inicio'),
-            onTap: () {
-              Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const PantallaRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.inventory),
-            title: const Text('Categorias'),
-            onTap: () {
-              Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const CategoriaRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.monetization_on),
-            title: const Text('Ventas'),
-            onTap: () {
-              Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const VentaRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.shopping_cart),
-            title: const Text('Compras'),
-            onTap: () {
-              Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const HistorialComprasRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.fitness_center),
-            title: const Text('Productos'),
-            onTap: () {
-              Navigator.of( context).pop();
-              AutoRouter.of(context).replace(const ProductoRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
-            onTap: () async {
-              Navigator.of(context).pop();
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Inicio'),
+              onTap: () {
+                Navigator.of( context).pop();
+                AutoRouter.of(context).push(const PantallaRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.inventory),
+              title: const Text('Categorias'),
+              onTap: () {
+                Navigator.of( context).pop();
+                AutoRouter.of(context).push(const CategoriaRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.monetization_on),
+              title: const Text('Ventas'),
+              onTap: () {
+                Navigator.of( context).pop();
+                AutoRouter.of(context).push(const VentaRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Compras'),
+              onTap: () {
+                Navigator.of( context).pop();
+                AutoRouter.of(context).push(const HistorialComprasRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.fitness_center),
+              title: const Text('Productos'),
+              onTap: () {
+                Navigator.of( context).pop();
+                AutoRouter.of(context).push(const ProductoRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
+              onTap: () async {
+                Navigator.of(context).pop();
                 final authRepository = AuthenticationRepository();
                 await authRepository.logout();
-              AutoRouter.of(context).replaceAll([LoginRoute()]);
+                AutoRouter.of(context).replaceAll([LoginRoute()]);
               },
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
-    ),
-
       body: const AutoRouter(),
     );
   }

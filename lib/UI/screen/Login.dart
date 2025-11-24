@@ -7,7 +7,7 @@ import 'package:gymmaster/data/constants/secure_storage_keys.dart';
 import 'package:gymmaster/data/models/token.dart';
 import 'package:gymmaster/data/repositories/authentication_repository.dart';
 import 'package:gymmaster/routes.gr.dart';
-import '../../apps_colors.dart';
+import '../../core/config/apps_colors.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
